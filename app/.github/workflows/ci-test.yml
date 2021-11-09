@@ -1,0 +1,55 @@
+name: Laravel
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  laravel-tests:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
+      with:
+        php-version: '7.4'
+    - uses: actions/checkout@v2
+    - name: Copy .env
+      run: php -r "file_exists('.env') || copy('.env.ci', '.env');"
+    - name: Install Dependencies
+      run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+    - name: Create Database
+      run: |
+        mkdir -p database
+        touch database/database.sqlite
+    - name: Migrate database
+      run: php artisan migrate
+    - name: Install Passport Clients
+      run: php artisan passport:install
+    - name: Execute tests (Unit and Feature tests) via PHPUnit
+      env:
+        DB_CONNECTION: sqlite
+        DB_DATABASE: database/database.sqlite
+      run: php vendor/phpunit/phpunit/phpunit
+
+  # ec2-deploy:
+  #   runs-on: ubuntu-latest
+  #   needs: laravel-tests
+  #   steps:
+  #   - uses: actions/checkout@v2
+  #   - name: Configure AWS Credentials
+  #     uses: aws-actions/configure-aws-credentials@v1
+  #     with:
+  #       aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #       aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #       aws-region: us-east-2
+  #   - name: Create an aws deployment
+  #     id: deployment
+  #     run: |
+  #       aws deploy create-deployment \
+  #         --application-name quickfundapigateway \
+  #         --deployment-group-name quickfundapigatewaydeploygroup \
+  #         --deployment-config-name CodeDeployDefault.OneAtATime \
+  #         --github-location repository=${{github.repository}},commitId=${{github.sha}}
