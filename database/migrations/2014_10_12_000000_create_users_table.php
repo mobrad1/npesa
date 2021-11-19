@@ -20,7 +20,7 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('phone');
             $table->integer('role')->default(1)->comment("1 - User, 2 - Merchant, 3 - Admin, 4 - Super Admin");
-            $table->string('pin');
+            $table->string('password');
             $table->rememberToken();
             $table->timestamps();
         });
