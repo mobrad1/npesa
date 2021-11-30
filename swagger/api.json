@@ -1,0 +1,26 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "Npesa API",
+      "contact": {},
+      "version": "1.0"
+    },
+    "servers": [
+      {
+        "url": "http://localhost",
+        "variables": {},
+        "description": "Local Dev Server 1"
+      }
+      
+    ],
+    "paths": {},
+  
+    "components": {},
+    "security": [
+      {
+        "httpBearer": []
+      }
+    ],
+    "tags": []
+  }
+  

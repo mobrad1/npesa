@@ -26,6 +26,17 @@ services:
             - redis
             - meilisearch
             - selenium
+    api-docs:
+        image: swaggerapi/swagger-ui
+        container_name: api-docs
+        ports:
+            - "9000:8080"
+        volumes:
+            - ./swagger:/usr/share/nginx/html/swagger
+        environment: 
+            API_URL: swagger/api.json
+        depends_on: 
+            - laravel.test
     mysql:
         image: 'mysql/mysql-server:8.0'
         ports:
