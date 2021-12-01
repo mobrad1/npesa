@@ -2,9 +2,10 @@
 namespace Modules\Business\Tests\Unit;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Modules\Business\Entities\Business;
 use Tests\TestCase;
 
-class CreateBusinessTest extends TestCase
+class LoginBusinessTest extends TestCase
 
 {
 
@@ -17,49 +18,45 @@ class CreateBusinessTest extends TestCase
      */
     protected function getPayload()
     {
-        $faker = \Faker\Factory::create();
+        //Create and already existsing business
+        $business = Business::factory()->create();
+
         $password = 'password';
         return [
-            'business_name'=> $faker->name(). ' Enterprise',
-            'email'=> $faker->unique()->safeEmail(),
+            'email'=> $business->email,
             'password'=> $password,
-            'password_confirmation'=> $password
         ];
     }
     
     
     /**
-     * test_we_can_create_a_business_account
+     * We can signin a business with right payload
      * @group business
      * @return void
      */
-    public function test_we_can_create_a_business_account()
+    public function test_we_can_signin_a_business_with_right_payload()
     {
 
         $payload = $this->getPayload();
-        $uri = route('business.create');
+        $uri = route('business.login');
         $response = $this->json('POST', $uri, $payload);
-
+       
         // assert response was successful
         $response->assertStatus(200);
-
-        // assert data exists in the database
-        $payload = $this->unsetMultiple($payload,'password', 'password_confirmation');
-        $this->assertDatabaseHas('businesses', $payload);
     }
 
     /**
-     * Missing a required value gives a 422 response
+     *  Invalid details gives a 422 response
      * @group business
      * @return void
      */
     public function test_missing_a_required_value_gives_422_response()
     {
         $payload = $this->getPayload();
-        unset($payload['business_name']);
-        $uri = route('business.create');
+        $payload['password'] = 'wrong_password';
+        $uri = route('business.login');
         $response = $this->json('POST', $uri, $payload);
-
+        
         // assert response was successful
         $response->assertStatus(422);
     }

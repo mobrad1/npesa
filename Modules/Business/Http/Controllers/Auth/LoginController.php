@@ -1,30 +1,33 @@
 <?php
 
-namespace Modules\Business\Http\Controllers;
+namespace Modules\Business\Http\Controllers\Auth;
 
 
 use Illuminate\Http\Request;
+use Modules\Business\Services\LoginService;
 use Illuminate\Validation\ValidationException;
-use Modules\Business\Http\Requests\RegisterRequest;
+use Modules\Business\Http\Requests\LoginRequest;
 use Modules\Business\Services\RegistrationService;
+use Modules\Business\Http\Requests\RegisterRequest;
+use Modules\Business\Http\Controllers\BaseController;
 
-class RegisterController extends BaseController
+class LoginController extends BaseController
 {
       
    /**
     * Initial Account creation for a new business
     *
     * @param  \Illuminate\Http\Request $request
-    * @param  \Modules\Business\Services\RegistrationService $registerService
+    * @param  \Modules\Business\Services\LoginService $registerService
     * @return \Illuminate\Http\JsonResponse
     */
-   public function register(RegisterRequest $request, RegistrationService $registerService)
+   public function login(LoginRequest $request, LoginService $registerService)
    {
         try {
 
             $data = $request->getSanitized();
 
-            $response = $registerService->createAccount($data);
+            $response = $registerService->loginBusiness($data);
 
             return $this->sendSuccessResponse($response);
 

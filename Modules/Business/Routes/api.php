@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Http\Request;
-use Modules\Business\Http\Controllers\RegisterController;
+use Modules\Business\Http\Controllers\Auth\RegisterController;
+use Modules\Business\Http\Controllers\Auth\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,4 +21,6 @@ Route::middleware('auth:api')->get('/business', function (Request $request) {
 
 Route::prefix('/v1/business')->group(function(){
     Route::post('/create', [RegisterController::class, 'register'])->name('business.create');
+
+    Route::post('/login', [LoginController::class, 'login'])->name('business.login');
 });

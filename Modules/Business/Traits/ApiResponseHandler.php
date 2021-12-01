@@ -31,11 +31,13 @@ trait ApiResponseHandler
      */
     public function sendValidationException($exception)
     {
+        $errors = $exception->errors();
+      
         return response()->json(
             [
                 'status'=> false, 
-                'message'=> $exception->errors()->first(), 
-                'errors'=> $exception->errors()->toArray(),
+                'message'=> is_array($errors) ? $errors[array_key_first($errors)][0]: $errors->first(), 
+                'errors'=> is_array($errors) ? $errors: $errors->toArray(),
                 'data'=> $response['data']?? [],
             ], $response['httpcode'] ?? 422
         );

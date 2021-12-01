@@ -20,6 +20,7 @@ class CreateBusinessesTable extends Migration
             $table->string('business_name');
             $table->string('email');
             $table->string('password');
+            $table->timestamp('email_verified_at')->nullable();
 
             // Secondary information for business user
             $table->string('first_name')->nullable();
