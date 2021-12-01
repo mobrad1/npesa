@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Modules\Business\Http\Controllers\Auth\EmailVerificationController;
 use Modules\Business\Http\Controllers\Auth\RegisterController;
 use Modules\Business\Http\Controllers\Auth\LoginController;
+use Modules\Business\Http\Controllers\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,7 +36,11 @@ Route::prefix('/v1/business')->group(function(){
 
         
         Route::middleware('business.verified')->group(function(){
-            Route::get('/verified/email/test', [EmailVerificationController::class, 'test'])->name('verified.test');
+            Route::put('/owner/update', [ProfileController::class, 'ownerProfile'])->name('business.owner.profile-update');
+        });
+
+        Route::middleware('business.owner.profiled')->group(function(){
+            
         });
     });
 

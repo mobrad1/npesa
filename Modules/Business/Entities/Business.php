@@ -31,4 +31,15 @@ class Business extends Authenticatable implements MustVerifyEmail
     {
         $this->notify(new BusinessVerifyEmail);
     }
+
+    
+    /**
+     * The owner profile for this business has been completed
+     *
+     * @return bool
+     */
+    public function hasCompletedOwnerProfile()
+    {
+        return $this->is_completed_owner_profile;
+    }
 }

@@ -18,11 +18,12 @@ class CreateBusinessesTable extends Migration
 
             // Required information for business
             $table->string('business_name');
-            $table->string('email');
+            $table->string('email')->unique();
             $table->string('password');
             $table->timestamp('email_verified_at')->nullable();
 
             // Secondary information for business user
+            $table->boolean('is_completed_owner_profile')->default(false);
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
             $table->string('phone')->nullable();
