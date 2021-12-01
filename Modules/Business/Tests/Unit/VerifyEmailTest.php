@@ -92,45 +92,6 @@ class VerifyEmailTest extends TestCase
         ]);
     }
 
-     /**
-     * Test verified emails 
-     * 
-     * @group business
-     * @return void
-     */
-    public function test_verified_emails_access_route()
-    {
-        $business = Business::factory()->create();
-
-        Sanctum::actingAs($business, ['*'], 'business');
-
-        $uri = route('verified.test');
-
-        $response = $this->json('GET', $uri);
-
-        $response->assertStatus(200);
-
-    }
-
-
-     /**
-     * Test unverified emails 
-     * 
-     * @group business
-     * @return void
-     */
-    public function test_unverified_emails_cannot_access_route()
-    {
-        $business = Business::factory()->unverified()->create();
-
-        Sanctum::actingAs($business, ['*'], 'business');
-
-        $uri = route('verified.test');
-
-        $response = $this->json('GET', $uri);
-
-        $response->assertStatus(403);
 
    
-    }
 }
