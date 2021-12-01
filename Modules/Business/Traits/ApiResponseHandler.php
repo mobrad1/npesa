@@ -11,7 +11,7 @@ trait ApiResponseHandler
      * @param  array $response
      * @return \Illuminate\Http\JsonResponse
      */
-    public function sendSuccessResponse(array $response)
+    public function sendResponse(array $response)
     {
         return response()->json(
             [

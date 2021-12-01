@@ -1,7 +1,9 @@
 <?php
 namespace Modules\Business\Tests\Unit;
 
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 class CreateBusinessTest extends TestCase
@@ -36,10 +38,15 @@ class CreateBusinessTest extends TestCase
     public function test_we_can_create_a_business_account()
     {
 
+        Event::fake();
+
         $payload = $this->getPayload();
         $uri = route('business.create');
         $response = $this->json('POST', $uri, $payload);
-
+       
+        // assert registered event was fired
+        Event::assertDispatched(Registered::class);
+        
         // assert response was successful
         $response->assertStatus(200);
 

@@ -29,7 +29,7 @@ class LoginController extends BaseController
 
             $response = $registerService->loginBusiness($data);
 
-            return $this->sendSuccessResponse($response);
+            return $this->sendResponse($response);
 
         }catch(\Exception $e){
             

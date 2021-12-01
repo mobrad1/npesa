@@ -2,13 +2,15 @@
 
 namespace Modules\Business\Entities;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Modules\Business\Notification\BusinessVerifyEmail;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Business extends Authenticatable
+class Business extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -18,5 +20,15 @@ class Business extends Authenticatable
     protected static function newFactory()
     {
         return \Modules\Business\Database\factories\BusinessFactory::new();
+    }
+
+     /**
+     * Send the email verification notification.
+     *
+     * @return void
+     */
+    public function sendEmailVerificationNotification()
+    {
+        $this->notify(new BusinessVerifyEmail);
     }
 }

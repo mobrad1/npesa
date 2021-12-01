@@ -1,6 +1,7 @@
 <?php
 namespace Modules\Business\Services;
 
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Hash;
 use Modules\Business\Entities\Business;
 
@@ -20,6 +21,8 @@ class RegistrationService
         // Create a user account
         $data['password'] = Hash::make($data['password']);
         $business = Business::create($data);
+
+        event(new Registered($business));// fire the registration event
 
         return $this->sendResponse($business);
     }

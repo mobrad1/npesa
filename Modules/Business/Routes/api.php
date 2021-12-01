@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Modules\Business\Http\Controllers\Auth\EmailVerificationController;
 use Modules\Business\Http\Controllers\Auth\RegisterController;
 use Modules\Business\Http\Controllers\Auth\LoginController;
 
@@ -23,4 +24,21 @@ Route::prefix('/v1/business')->group(function(){
     Route::post('/create', [RegisterController::class, 'register'])->name('business.create');
 
     Route::post('/login', [LoginController::class, 'login'])->name('business.login');
+
+    Route::put('/verify/email/{hash}/{id}', [EmailVerificationController::class, 'verify'])
+    ->name('business.verification.verify')
+    ->middleware('signed');
+
+
+    // only authenticated businesses route
+    Route::middleware('auth:business')->group(function(){
+
+        
+        Route::middleware('business.verified')->group(function(){
+            Route::get('/verified/email/test', [EmailVerificationController::class, 'test'])->name('verified.test');
+        });
+    });
+
+
+   
 });
