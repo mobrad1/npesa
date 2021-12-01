@@ -42,4 +42,14 @@ class Business extends Authenticatable implements MustVerifyEmail
     {
         return $this->is_completed_owner_profile;
     }
+    
+    /**
+     * Business Reg Details
+     *
+     * @return Collection
+     */
+    public function companyReg()
+    {
+        return $this->hasOne(CompanyRegDetail::class);
+    }
 }
