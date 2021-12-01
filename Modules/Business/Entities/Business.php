@@ -2,6 +2,7 @@
 
 namespace Modules\Business\Entities;
 
+use App\Models\BankAccount;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
@@ -51,5 +52,16 @@ class Business extends Authenticatable implements MustVerifyEmail
     public function companyReg()
     {
         return $this->hasOne(CompanyRegDetail::class);
+    }
+
+    
+    /**
+     * Gets the businesses banking information
+     *
+     * @return void
+     */
+    public function account()
+    {
+        return $this->morphOne(BankAccount::class, 'payable');
     }
 }

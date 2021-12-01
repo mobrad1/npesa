@@ -1,11 +1,12 @@
 <?php
 
 use Illuminate\Http\Request;
-use Modules\Business\Http\Controllers\Auth\EmailVerificationController;
-use Modules\Business\Http\Controllers\Auth\RegisterController;
-use Modules\Business\Http\Controllers\Auth\LoginController;
-use Modules\Business\Http\Controllers\CompanyRegistrationController;
 use Modules\Business\Http\Controllers\ProfileController;
+use Modules\Business\Http\Controllers\Auth\LoginController;
+use Modules\Business\Http\Controllers\BankAccountController;
+use Modules\Business\Http\Controllers\Auth\RegisterController;
+use Modules\Business\Http\Controllers\CompanyRegistrationController;
+use Modules\Business\Http\Controllers\Auth\EmailVerificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,7 +42,8 @@ Route::prefix('/v1/business')->group(function(){
         });
 
         Route::middleware('business.owner.profiled')->group(function(){
-            Route::post('/company/details',  [CompanyRegistrationController::class, 'upload'])->name('business.company.reg-upload');
+            Route::post('/company/details/update',  [CompanyRegistrationController::class, 'upload'])->name('business.company.reg-upload');
+            Route::post('/company/bank/account/update',  [BankAccountController::class, 'update'])->name('business.bank.account-update');
         });
     });
 
