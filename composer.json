@@ -13,6 +13,7 @@
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
         "nwidart/laravel-modules": "^8.2",
+        "spatie/crypto": "^2.0",
         "spomky-labs/otphp": "^10.0"
     },
     "require-dev": {
