@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +14,7 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/customer', function (Request $request) {
-    return $request->user();
+Route::group(['prefix' => 'customer'],function(){
+    Route::post('register',[\Modules\Customer\Http\Controllers\RegisterAPIController::class,'store']);
+    Route::post('login',[\Modules\Customer\Http\Controllers\LoginAPIController::class,'store']);
 });
