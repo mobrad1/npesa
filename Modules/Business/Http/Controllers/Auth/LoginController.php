@@ -18,16 +18,16 @@ class LoginController extends BaseController
     * Initial Account creation for a new business
     *
     * @param  \Illuminate\Http\Request $request
-    * @param  \Modules\Business\Services\LoginService $registerService
+    * @param  \Modules\Business\Services\LoginService $loginService
     * @return \Illuminate\Http\JsonResponse
     */
-   public function login(LoginRequest $request, LoginService $registerService)
+   public function login(LoginRequest $request, LoginService $loginService)
    {
         try {
 
             $data = $request->getSanitized();
 
-            $response = $registerService->loginBusiness($data);
+            $response = $loginService->loginBusiness($data);
 
             return $this->sendResponse($response);
 

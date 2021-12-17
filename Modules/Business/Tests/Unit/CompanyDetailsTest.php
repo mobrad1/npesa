@@ -1,12 +1,14 @@
 <?php
 namespace Modules\Business\Tests\Unit;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage;
-use Laravel\Sanctum\Sanctum;
-use Modules\Business\Entities\Business;
 use Tests\TestCase;
+use Laravel\Sanctum\Sanctum;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Storage;
+use Modules\Business\Entities\Business;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Modules\Business\Events\CompanyRegistered;
 
 class CompanyDetailsTest extends TestCase
 
@@ -39,6 +41,8 @@ class CompanyDetailsTest extends TestCase
      */
     public function test_we_can_upload_company_registration_details()
     {
+        Event::fake();
+        
         $business = Business::factory()->ownerProfiled()->create();
 
         $payload = $this->getPayload();
@@ -56,6 +60,8 @@ class CompanyDetailsTest extends TestCase
         // assert data exists in the database
         $payload =  $this->unsetMultiple($payload, 'reg_file');
         $this->assertDatabaseHas('company_reg_details', $payload);
+
+        Event::assertDispatched(CompanyRegistered::class);
     }
 
    

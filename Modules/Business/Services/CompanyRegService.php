@@ -3,6 +3,7 @@ namespace Modules\Business\Services;
 
 use App\Services\Helpers\AWSFileUploader;
 use Modules\Business\Entities\CompanyRegDetail;
+use Modules\Business\Events\CompanyRegistered;
 
 class CompanyRegService
 {
@@ -18,8 +19,13 @@ class CompanyRegService
         $business = request()->user('business');
 
         $data['reg_file'] = AWSFileUploader::uploadDocument($data['reg_file']);
-        $data['business_id'] = $business->id;
-        $company = CompanyRegDetail::create($data);
+     
+        $company = CompanyRegDetail::updateOrCreate(
+            ['business_id'=> $business->id],
+            $data
+        );
+
+        event(new CompanyRegistered());
 
         return [
             'status'=> $company ? true : false,

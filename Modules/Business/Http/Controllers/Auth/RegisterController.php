@@ -26,7 +26,7 @@ class RegisterController extends BaseController
             $data = $request->getSanitized();
 
             $response = $registerService->createAccount($data);
-
+          
             return $this->sendResponse($response);
 
         }catch(\Exception $e){

@@ -10,10 +10,14 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\Business\Notification\BusinessVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Modules\Business\Contracts\HasApiKeys as ContractsHasApiKeys;
+use Modules\Business\Traits\HasApiKeys;
 
-class Business extends Authenticatable implements MustVerifyEmail
+class Business extends Authenticatable implements MustVerifyEmail, ContractsHasApiKeys
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, HasApiKeys;
+
+    protected $guard = 'business';
 
     //protected $fillable = [];
     protected $guarded = [];
@@ -64,4 +68,8 @@ class Business extends Authenticatable implements MustVerifyEmail
     {
         return $this->morphOne(BankAccount::class, 'payable');
     }
+
+    
+   
+   
 }
