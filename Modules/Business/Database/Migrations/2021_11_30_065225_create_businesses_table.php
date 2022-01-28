@@ -17,14 +17,16 @@ class CreateBusinessesTable extends Migration
             $table->id();
             // Required information for business
             $table->string('business_name');
-            $table->string('email')->unique();
-            $table->string('password');
+            $table->string('email')->nullable();
+            $table->string('pin');
             $table->timestamp('email_verified_at')->nullable();
             // Secondary information for business user
             $table->boolean('is_completed_owner_profile')->default(false);
             $table->string('first_name')->nullable();
+            $table->bigInteger('balance')->default(0);
             $table->string('last_name')->nullable();
-            $table->string('phone')->nullable();
+            $table->string('business_number')->unique();
+            $table->string('phone')->unique();
             $table->boolean('is_registered')->default(false);
             $table->integer('team_size')->default(1);
             $table->timestamps();

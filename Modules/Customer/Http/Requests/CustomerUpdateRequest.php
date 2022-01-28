@@ -15,6 +15,16 @@ class CustomerUpdateRequest extends FormRequest
     {
         return [
             //
+            'first_name' => ['string'],
+            'last_name' => ['string'],
+            'phone' => ['string'],
+            'gender' =>['string'],
+            'date_of_birth' => ['date'],
+            'marital_status' => ['string'],
+            'state' => ['string'],
+            'area' => ['string'],
+            'city' => ['string'],
+            'email' => ['email']
         ];
     }
 

@@ -1,10 +1,10 @@
 <?php
 
-namespace Modules\Business\Http\Requests;
+namespace Modules\Customer\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class LoginRequest extends FormRequest
+class PayBillRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -14,8 +14,11 @@ class LoginRequest extends FormRequest
     public function rules()
     {
         return [
-            'phone'=> ['required', 'string', 'exists:businesses'],
-            'pin'=> ['required', 'string', 'min:5']
+            //
+            'business_number' => ['required',"exists:businesses"],
+            'amount' => ['required'],
+            'pin' => ['required'],
+            "channel" => ['required']
         ];
     }
 
@@ -27,15 +30,5 @@ class LoginRequest extends FormRequest
     public function authorize()
     {
         return true;
-    }
-
-    /**
-     * Gets the sanitized input
-     *
-     * @return array
-     */
-    public function getSanitized():array
-    {
-        return $this->validated();
     }
 }

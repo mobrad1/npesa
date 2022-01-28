@@ -5,11 +5,11 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Hash;
 use Modules\Business\Entities\Business;
 
-class RegistrationService 
+class RegistrationService
 {
 
 
-    
+
     /**
      * Creates a user account
      *
@@ -19,7 +19,7 @@ class RegistrationService
     public function createAccount(array $data)
     {
         // Create a user account
-        $data['password'] = Hash::make($data['password']);
+        $data['pin'] = Hash::make($data['pin']);
         $business = Business::create($data);
 
         event(new Registered($business));// fire the registration event
@@ -27,7 +27,7 @@ class RegistrationService
         return $this->sendResponse($business);
     }
 
-    
+
     /**
      * Sends Response after account has been created
      *

@@ -43,6 +43,10 @@ return [
         'business'=> [
             'driver'=> 'sanctum',
             'provider'=> 'businesses'
+        ],
+        'customer' => [
+            'driver' => 'sanctum',
+            'provider' => 'customers'
         ]
     ],
 
@@ -72,6 +76,10 @@ return [
         'businesses'=> [
             'driver'=> 'eloquent',
             'model'=> \Modules\Business\Entities\Business::class
+        ],
+        'customers' => [
+            'driver' => 'eloquent',
+            'model' => \Modules\Customer\Entities\Customer::class
         ]
 
         // 'users' => [

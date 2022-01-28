@@ -16,8 +16,8 @@ class RegisterRequest extends FormRequest
         return [
             //
             'business_name'=> ['required', 'string'],
-            'email'=> ['required', 'email', 'unique:businesses'],
-            'password'=> ['required', 'string', 'min:5', 'confirmed']
+            'phone' => ['required', 'int', 'min:11', 'unique:businesses'],
+            'pin'=> ['required', 'string', 'min:5', 'confirmed']
         ];
     }
 
@@ -30,7 +30,7 @@ class RegisterRequest extends FormRequest
     {
         return true;
     }
-    
+
     /**
      * Gets the sanitized input
      *

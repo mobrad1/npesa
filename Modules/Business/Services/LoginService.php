@@ -5,11 +5,11 @@ use Illuminate\Support\Facades\Hash;
 use Modules\Business\Entities\Business;
 use Illuminate\Validation\ValidationException;
 
-class LoginService 
+class LoginService
 {
 
 
-    
+
     /**
      * Creates a user account
      *
@@ -19,7 +19,7 @@ class LoginService
     public function loginBusiness(array $data)
     {
 
-        $business = Business::where('email', $data['email'])->first();
+        $business = Business::where('phone', $data['phone'])->first();
 
         if (! $business || ! Hash::check($data['password'], $business->password)) {
             throw ValidationException::withMessages([
@@ -32,7 +32,7 @@ class LoginService
         return $this->sendResponse($token, $business);
     }
 
-    
+
     /**
      * Sends Response after account has been created
      *

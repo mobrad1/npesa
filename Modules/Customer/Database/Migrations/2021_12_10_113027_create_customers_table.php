@@ -34,8 +34,8 @@ class CreateCustomersTable extends Migration
             $table->dateTime('approved_at')->nullable();
             $table->dateTime('last_login')->nullable();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('phone_number')->unique();
-            $table->timestamp('phone_number_verified_at')->nullable();
+            $table->string('phone')->unique();
+            $table->timestamp('phone_verified_at')->nullable();
             $table->string('pin');
             $table->rememberToken();
             $table->timestamps();

@@ -27,3 +27,5 @@ Route::post("register", [RegisteredUserController::class, "store"])->middleware(
 Route::post('/forgot-password',[ForgotPasswordController::class,"sendResetPasswordEmail"])->middleware("guest");
 Route::post('/verify-token',[ResetPasswordController::class,"verifyOtp"])->middleware("guest");
 Route::post('/password/reset',[ResetPasswordController::class,"reset"])->middleware("guest");
+
+Route::get('/transaction/categories',[\App\Http\Controllers\TransactionCategoriesController::class,"index"]);
