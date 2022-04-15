@@ -9,6 +9,7 @@ use Modules\Customer\Http\Requests\BalanceRequest;
 use Modules\Customer\Http\Requests\BuyAirtimeRequest;
 use Modules\Customer\Http\Requests\CustomerUpdateRequest;
 use Modules\Customer\Http\Requests\PayBillRequest;
+use Modules\Customer\Http\Requests\PinRequest;
 use Modules\Customer\Http\Requests\SendMoneyToBankRequest;
 use Modules\Customer\Http\Requests\SendMoneyToMobileMoneyRequest;
 use Modules\Customer\Http\Requests\SendMoneyToMobileRequest;
@@ -81,6 +82,16 @@ class CustomerController extends Controller
             return $this->sendError($e->getMessage(),[]);
         }
     }
+    public function withdrawViaAgent(PayBillRequest $request)
+    {
+        $data = $request->validated();
+        try{
+            $this->customerService->withdrawViaAgent($data);
+            return $this->sendResponse([],"Withdrawal to Agent successful");
+        }catch (\Exception $e){
+            return $this->sendError($e->getMessage(),[]);
+        }
+    }
     public function balance(BalanceRequest $request)
     {
         $data = $request->validated();
@@ -92,6 +103,18 @@ class CustomerController extends Controller
              return $this->sendError($e->getMessage(),[]);
         }
     }
+    public function updatePin(PinRequest $request)
+    {
+        $data = $request->validated();
+        try {
+             $this->customerService->updatePin($data);
+             //TODO logout all active sessions
+             return $this->sendResponse([],"Pin Updated Successfully");
 
+        }catch (\Exception $e){
+             return $this->sendError($e->getMessage(),[]);
+        }
+
+    }
 
 }

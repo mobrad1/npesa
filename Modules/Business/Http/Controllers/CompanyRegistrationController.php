@@ -3,14 +3,14 @@ namespace Modules\Business\Http\Controllers;
 
 use Illuminate\Validation\ValidationException;
 use Modules\Business\Services\CompanyRegService;
-use Modules\Business\Services\BusinessOwnerService;
+use Modules\Business\Services\BusinessService;
 use Modules\Business\Http\Requests\CompanyRegRequest;
 use Modules\Business\Http\Requests\BusinessOwnerProfileRequest;
 
 class CompanyRegistrationController extends BaseController
 
 {
-    
+
     /**
      * Upload company Registration Details
      *
@@ -30,11 +30,11 @@ class CompanyRegistrationController extends BaseController
             return $this->sendResponse($response);
 
         }catch(\Exception $e){
-            
+
             if ($e instanceof ValidationException) {
                 return $this->sendValidationException($e);
             }
-            
+
             return $this->sendGenericException($e);
         }
     }

@@ -6,6 +6,7 @@ namespace Modules\Customer\Services;
 
 use App\Services\BaseService;
 use Exception;
+use Illuminate\Support\Facades\Hash;
 use Modules\Customer\Entities\Customer;
 
 class CustomerService extends BaseService
@@ -54,7 +55,7 @@ class CustomerService extends BaseService
         $hasher = app('hash');
         if($hasher->check($attributes['pin'],$customer->pin))
         {
-            if($customer->sendMoneyToBank($attributes['amount'],$attributes['channel'],"AGOGA",$attributes['bank'],$attributes['account_number'])){
+            if($customer->sendMoneyToBank($attributes['amount'],$attributes['channel'],$attributes['account_number'],"AGOGA",$attributes['bank'])){
                return;
             }
             throw new Exception("Insufficient Balance");
@@ -68,7 +69,7 @@ class CustomerService extends BaseService
         $hasher = app('hash');
         if($hasher->check($attributes['pin'],$customer->pin))
         {
-            if($customer->sendMoneyToBank($attributes['amount'],$attributes['channel'],"AGOGA",$attributes['mobile_money'],$attributes['account_number'])){
+            if($customer->sendMoneyToMobileMoney($attributes['amount'],$attributes['channel'],$attributes['account_number'],"AGOGA",$attributes['mobile_money'])){
                return;
             }
             throw new Exception("Insufficient Balance");
@@ -81,7 +82,7 @@ class CustomerService extends BaseService
         $hasher = app('hash');
         if($hasher->check($attributes['pin'],$customer->pin))
         {
-            if($customer->buyAirtime($attributes['amount'],$attributes['channel'],"AGOGA","AGOGA",$attributes['mobile_number'])){
+            if($customer->buyAirtime($attributes['amount'],$attributes['channel'],$attributes['mobile_number'],"AGOGA",$attributes['airtime_provider'])){
                return;
             }
             throw new Exception("Insufficient Balance");
@@ -96,6 +97,20 @@ class CustomerService extends BaseService
         $hasher = app('hash');
         if ($hasher->check($attributes['pin'], $customer->pin)) {
            if($customer->payBill($attributes['amount'],$attributes['business_number'],$attributes['channel'],$accountNumber)){
+               return;
+           }
+           throw new Exception("Insufficient Balance");
+        }
+        throw new Exception("Invalid Pin ");
+    }
+    public function withdrawViaAgent(array $attributes)
+    {
+        $customer = auth('customer')->user();
+        $accountNumber = isset($attributes['account_number']) ? $attributes['account_number'] : null;
+        //Extract Pin checking to a custom validator or Helper
+        $hasher = app('hash');
+        if ($hasher->check($attributes['pin'], $customer->pin)) {
+           if($customer->withdrawViaAgent($attributes['amount'],$attributes['business_number'],$attributes['channel'],$accountNumber)){
                return;
            }
            throw new Exception("Insufficient Balance");
@@ -118,5 +133,20 @@ class CustomerService extends BaseService
     public function search($filter)
     {
         return auth('customer')->user()->transactions()->filter($filter)->get();
+    }
+    public function updatePin($attributes)
+    {
+
+         $customer = $this->find(auth('customer')->id());
+
+         $hasher = app('hash');
+        if ($hasher->check($attributes['old_pin'], $customer->pin)) {
+           $customer->fill([
+            'pin' => Hash::make($attributes['pin'])
+           ]);
+           $customer->save();
+           return;
+        }
+        throw new Exception("Old pin Incorrect");
     }
 }

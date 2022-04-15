@@ -47,6 +47,10 @@ return [
         'customer' => [
             'driver' => 'sanctum',
             'provider' => 'customers'
+        ],
+        'admin' => [
+            'driver' => 'sanctum',
+            'provider' => 'admins'
         ]
     ],
 
@@ -80,6 +84,10 @@ return [
         'customers' => [
             'driver' => 'eloquent',
             'model' => \Modules\Customer\Entities\Customer::class
+        ],
+        'admins' => [
+            'driver' => 'eloquent',
+            'model' => \Modules\Admin\Entities\Admin::class
         ]
 
         // 'users' => [
@@ -106,6 +114,24 @@ return [
     'passwords' => [
         'users' => [
             'provider' => 'users',
+            'table' => 'password_resets',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+        'customers' => [
+            'provider' => 'businesses',
+            'table' => 'password_resets',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+        'businesses' => [
+            'provider' => 'businesses',
+            'table' => 'password_resets',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+        'admins' => [
+            'provider' => 'admins',
             'table' => 'password_resets',
             'expire' => 60,
             'throttle' => 60,

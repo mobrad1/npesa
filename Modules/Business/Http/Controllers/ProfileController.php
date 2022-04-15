@@ -2,13 +2,13 @@
 namespace Modules\Business\Http\Controllers;
 
 use Illuminate\Validation\ValidationException;
-use Modules\Business\Services\BusinessOwnerService;
+use Modules\Business\Services\BusinessService;
 use Modules\Business\Http\Requests\BusinessOwnerProfileRequest;
 
 class ProfileController extends BaseController
 
 {
-    
+
     /**
      * Updates the Owner profile
      *
@@ -16,7 +16,7 @@ class ProfileController extends BaseController
      * @param  mixed $ownerService
      * @return void
      */
-    public function ownerProfile(BusinessOwnerProfileRequest $request, BusinessOwnerService $ownerService)
+    public function ownerProfile(BusinessOwnerProfileRequest $request, BusinessService $ownerService)
     {
 
         try {
@@ -28,11 +28,11 @@ class ProfileController extends BaseController
             return $this->sendResponse($response);
 
         }catch(\Exception $e){
-            
+
             if ($e instanceof ValidationException) {
                 return $this->sendValidationException($e);
             }
-            
+
             return $this->sendGenericException($e);
         }
     }

@@ -18,7 +18,8 @@ class BuyAirtimeRequest extends FormRequest
             "mobile_number" => ["required"],
             "amount" => ["required"],
             "pin" => ["required"],
-            "channel" => ["required"]
+            "channel" => ["required"],
+            "airtime_provider" => ["required"]
         ];
     }
 

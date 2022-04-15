@@ -18,7 +18,8 @@ class PayBillRequest extends FormRequest
             'business_number' => ['required',"exists:businesses"],
             'amount' => ['required'],
             'pin' => ['required'],
-            "channel" => ['required']
+            "channel" => ['required'],
+            "account_number" => ['string'],
         ];
     }
 

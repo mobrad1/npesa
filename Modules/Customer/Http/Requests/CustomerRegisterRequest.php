@@ -25,6 +25,7 @@ class CustomerRegisterRequest extends FormRequest
             "email" => ['string','email'],
             "gender" => ["string"],
             "phone" => ['required',Rule::unique(Customer::class)],
+            "channel" => ['required','string'],
             "pin" => $this->passwordRules()
         ];
     }

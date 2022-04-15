@@ -15,7 +15,7 @@ class LoginRequest extends FormRequest
     {
         return [
             'phone'=> ['required', 'string', 'exists:businesses'],
-            'pin'=> ['required', 'string', 'min:5']
+            'pin'=> ['required', 'string', 'min:4']
         ];
     }
 

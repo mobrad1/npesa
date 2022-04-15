@@ -21,9 +21,9 @@ class LoginService
 
         $business = Business::where('phone', $data['phone'])->first();
 
-        if (! $business || ! Hash::check($data['password'], $business->password)) {
+        if (! $business || ! Hash::check($data['pin'], $business->pin)) {
             throw ValidationException::withMessages([
-                'email' => ['The provided credentials are incorrect.'],
+                'pin' => ['The provided credentials are incorrect.'],
             ]);
         }
 

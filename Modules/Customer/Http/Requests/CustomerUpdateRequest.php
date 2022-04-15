@@ -16,15 +16,24 @@ class CustomerUpdateRequest extends FormRequest
         return [
             //
             'first_name' => ['string'],
+            'middle_name' => ['string'],
             'last_name' => ['string'],
+            'email' => ['email'],
             'phone' => ['string'],
             'gender' =>['string'],
-            'date_of_birth' => ['date'],
+            'settings_push_notification' => ['boolean'],
+            'settings_notification' => ['boolean'],
+            'settings_email_notifications' => ['boolean'],
+            'settings_general' => ['boolean'],
             'marital_status' => ['string'],
+            'date_of_birth' => ['date'],
+            'latitude' => ['string'],
+            'longitude' => ['string'],
             'state' => ['string'],
             'area' => ['string'],
             'city' => ['string'],
-            'email' => ['email']
+            'address' => ['string'],
+            'channel' => ['string']
         ];
     }
 

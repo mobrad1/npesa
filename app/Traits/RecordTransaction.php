@@ -8,39 +8,59 @@ use App\Models\Transaction;
 
 trait RecordTransaction
 {
-    public function recordReciepient($amount,$channel,$transactionType,$transaction_category,$transaction_from_group,$transaction_to_group,$transaction_to_account_number,$transaction_from_account_number,$toModel = null,$fromModel = null)
+    public function recordInternal($amount,$to_number,$channel,$category,$from_number,$toModel = null,$fromModel = null,$account_number = null,$transaction_from_group = "AGOGA",$transaction_to_group = "AGOGA",$transactionType = "internal")
     {
         Transaction::create([
             "channel" => $channel,
             "transaction_type" => $transactionType,
-            "transactional_from_type" => $fromModel != null ? get_class($fromModel) : null,
+            "transactional_from_type" => $fromModel != null ? get_class($this) : null,
             "transactional_to_type" =>$toModel != null ? get_class($toModel) : null,
             "transactional_from_id" => optional($fromModel)->id,
             "transactional_to_id" => optional($toModel)->id,
-            "transaction_category" => $transaction_category,
             "transaction_from_group" => $transaction_from_group,// GTB OR ZENITH
             "transaction_to_group" => $transaction_to_group ,// AGOGA
-            "transaction_to_account_number" => $transaction_to_account_number,
-            "transaction_from_account_number" => $transaction_from_account_number,
+            "transaction_to_user_number" => $to_number,
+            "transaction_from_user_number" => $from_number,
+            "transaction_category_id" => $category,
+            "transaction_reference_internal" => "generate_for_internal",
+            "transaction_reference_external" => "get_reference",
+            "transaction_account_number" => $account_number,
+            "transaction_amount" => $amount,
+            "transaction_amount_credit" => $amount,
+            "transaction_amount_debit" => $amount,
             "transaction_cost" => 50,
-            "reference" => "bread",
-            "amount" => $amount,
+            "transaction_cost_credit"=> 50,
+            "transaction_cost_debit" => 50,
+            "settlements_type" => "Auto",
             "status" => "Complete",
         ]);
     }
-    public function recordSender($amount,$channel,$transactionType,$transaction_category)
+    public function recordExternal($amount,$channel,$category,$from_number,$account_number = null,$toModel = null,$fromModel = null,$transaction_from_group = "AGOGA",$transaction_to_group = "AGOGA",$transactionType = "external")
     {
         Transaction::create([
             "channel" => $channel,
             "transaction_type" => $transactionType,
-            "transactional_type" => get_class($this),
-            "transactional_id" => $this->id,
-            "transaction_category" => $transaction_category,
+            "transactional_from_type" => $fromModel != null ? get_class($this) : null,
+            "transactional_to_type" =>$toModel != null ? get_class($toModel) : null,
+            "transactional_from_id" => optional($fromModel)->id,
+            "transactional_to_id" => optional($toModel)->id,
+            "transaction_from_group" => $transaction_from_group,// GTB OR ZENITH
+            "transaction_to_group" => $transaction_to_group ,// AGOGA
+            "transaction_to_user_number" => null,
+            "transaction_from_user_number" => $from_number,
+            "transaction_category_id" => $category,
+            "transaction_reference_internal" => "generate_for_internal",
+            "transaction_reference_external" => "get_reference",
+            "transaction_account_number" => $account_number,
+            "transaction_amount" => $amount,
+            "transaction_amount_credit" => $amount,
+            "transaction_amount_debit" => $amount,
             "transaction_cost" => 50,
-            "reference" => "bread",
-            "amount" => $amount,
+            "transaction_cost_credit"=> 50,
+            "transaction_cost_debit" => 50,
+            "settlements_type" => "Auto",
             "status" => "Complete",
-            "direction" => "Debit"
         ]);
     }
+
 }

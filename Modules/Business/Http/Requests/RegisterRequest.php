@@ -16,8 +16,9 @@ class RegisterRequest extends FormRequest
         return [
             //
             'business_name'=> ['required', 'string'],
-            'phone' => ['required', 'int', 'min:11', 'unique:businesses'],
-            'pin'=> ['required', 'string', 'min:5', 'confirmed']
+            'phone' => ['required', 'min:11', 'unique:businesses'],
+            'pin'=> ['required', 'string', 'min:4', 'confirmed'],
+            'category_id' => ['nullable']
         ];
     }
 
