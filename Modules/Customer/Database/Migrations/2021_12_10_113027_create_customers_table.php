@@ -41,6 +41,7 @@ class CreateCustomersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('phone')->unique();
             $table->timestamp('phone_verified_at')->nullable();
+            $table->boolean('banned')->default(false);
             $table->string('pin');
             $table->enum('channel',['ussd','mobile','web','pos']);
             $table->rememberToken();

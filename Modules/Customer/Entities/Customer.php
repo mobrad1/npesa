@@ -19,7 +19,7 @@ class Customer extends Authenticatable implements MustVerifyEmail
 
     protected $fillable = ['first_name','last_name','middle_name','pin',
                             'phone','marital_status','date_of_birth',
-                            'gender','profile_picture','signature','state','area','city',
+                            'gender','profile_picture','signature','state','area','city','banned'
                         ];
      protected $hidden = [
        'pin'
@@ -152,6 +152,12 @@ class Customer extends Authenticatable implements MustVerifyEmail
     public function withdrawViaATM()
     {
 
+    }
+    public function ban()
+    {
+        return $this->update([
+            'banned' => !$this->banned
+        ]);
     }
 
 }

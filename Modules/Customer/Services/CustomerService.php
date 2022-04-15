@@ -28,7 +28,6 @@ class CustomerService extends BaseService
         $customer->fill($attributes);
         $customer->save();
         return $customer;
-
     }
     public function sendMoneyToMobile(array $attributes)
     {
