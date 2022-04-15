@@ -20,7 +20,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 
 class Business extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, Notifiable, RecordTransaction,LogsActivity;;
+    use HasApiTokens, HasFactory, Notifiable, RecordTransaction,LogsActivity;
 
     //protected $fillable = [];
     protected $guarded = [];
