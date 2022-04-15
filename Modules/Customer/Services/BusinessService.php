@@ -13,4 +13,8 @@ class BusinessService extends BaseService
     {
         parent::__construct(Business::class);
     }
+    public function transactions(Business $business)
+    {
+        return $business->transactions()->get();
+    }
 }

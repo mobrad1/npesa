@@ -15,10 +15,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\Business\Notification\BusinessVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Modules\Customer\Entities\Customer;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Business extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, Notifiable, RecordTransaction;
+    use HasApiTokens, HasFactory, Notifiable, RecordTransaction,LogsActivity;;
 
     //protected $fillable = [];
     protected $guarded = [];
@@ -28,7 +30,15 @@ class Business extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'balance' => 'real'
     ];
+    protected  $logName = 'Business';
 
+    public function getActivitylogOptions() : LogOptions
+    {
+        return LogOptions::defaults()
+             ->setDescriptionForEvent(fn(string $eventName) => "{$this->logName} has been {$eventName}")
+             ->useLogName($this->logName)
+             ->logAll();
+    }
     protected static function booted()
     {
         static::created(function ($business) {

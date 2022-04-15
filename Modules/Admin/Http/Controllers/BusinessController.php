@@ -7,6 +7,7 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Modules\Admin\Http\Requests\BusinessCreateRequest;
 use Modules\Admin\Http\Requests\BusinessUpdateRequest;
+use Modules\Business\Entities\Business;
 use Modules\Customer\Services\BusinessService;
 
 
@@ -40,4 +41,10 @@ class BusinessController extends Controller
         $this->businessService->delete($id);
         return $this->sendResponse([],"Business Deleted Successfully");
     }
+    public function transactions(Business $business)
+    {
+        $transactions = $this->businessService->transactions($business);
+        return $this->sendResponse($transactions,"Transactions Loaded Successful");
+    }
+
 }

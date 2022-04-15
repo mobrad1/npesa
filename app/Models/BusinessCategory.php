@@ -1,23 +1,17 @@
 <?php
 
-namespace Modules\Admin\Entities;
+namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class Admin extends Model
+class BusinessCategory extends Model
 {
-    use  HasApiTokens, HasFactory, Notifiable,LogsActivity;
-
+    use HasFactory,LogsActivity;
     protected $guarded = [];
-    protected $hidden = [
-        'pin'
-    ];
-     protected $logName = "Admin";
+     protected $logName = "Business Category";
      public function getActivitylogOptions() : LogOptions
     {
         return LogOptions::defaults()
@@ -25,8 +19,5 @@ class Admin extends Model
              ->useLogName($this->logName)
              ->logAll();
     }
-    protected static function newFactory()
-    {
-        return \Modules\Admin\Database\factories\AdminFactory::new();
-    }
+
 }

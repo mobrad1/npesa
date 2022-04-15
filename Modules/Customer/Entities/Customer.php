@@ -12,10 +12,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\DB;
 use Laravel\Sanctum\HasApiTokens;
 use Modules\Business\Entities\Business;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Customer extends Authenticatable implements MustVerifyEmail
 {
-    use HasFactory,HasApiTokens,RecordTransaction;
+    use HasFactory,HasApiTokens,RecordTransaction,LogsActivity;
 
     protected $fillable = ['first_name','last_name','middle_name','pin',
                             'phone','marital_status','date_of_birth',
@@ -24,7 +26,14 @@ class Customer extends Authenticatable implements MustVerifyEmail
      protected $hidden = [
        'pin'
     ];
-
+     protected $logName = "Customer";
+     public function getActivitylogOptions() : LogOptions
+    {
+        return LogOptions::defaults()
+             ->setDescriptionForEvent(fn(string $eventName) => "{$this->logName} has been {$eventName}")
+             ->useLogName($this->logName)
+             ->logAll();
+    }
     protected static function newFactory()
     {
         return \Modules\Customer\Database\factories\CustomerFactory::new();
