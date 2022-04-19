@@ -96,7 +96,7 @@ class Business extends Authenticatable implements MustVerifyEmail
             $recipient->save();
             $this->save();
             $this->recordInternal($amount, $recipient->phone, $channel, 1, $this->phone, $recipient, $this);
-            $recipient->notify(new CreditBusinessWithSms());
+//            $recipient->notify(new CreditBusinessWithSms());
             return true;
         }
         return false;
