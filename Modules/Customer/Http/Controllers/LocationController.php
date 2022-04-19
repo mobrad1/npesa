@@ -2,10 +2,12 @@
 
 namespace Modules\Customer\Http\Controllers;
 
+use App\Filters\BusinessFilter;
 use App\Http\Controllers\Controller;
+use App\Services\LocationService;
 use Illuminate\Http\Request;
 use Modules\Customer\Http\Requests\LocationRequest;
-use Modules\Customer\Services\LocationService;
+
 
 class LocationController extends Controller
 {
@@ -14,28 +16,25 @@ class LocationController extends Controller
     {
         $this->locationService = $locationService;
     }
-    public function findATM(LocationRequest $request)
+    public function findATM(BusinessFilter $filter)
     {
-        $data = $request->validated();
-        $businesses = $this->locationService->findATM($data);
-        return $this->sendResponse($businesses,"ATM loaded succesfully");
+
+        $businesses = $this->locationService->findATM($filter);
+        return $this->sendResponse($businesses,"ATM loaded successfully");
     }
-    public function findBank(Request $request)
+    public function findBank(BusinessFilter $filter)
     {
-        $data = $request->validated();
-        $businesses = $this->locationService->findATM($data);
+        $businesses = $this->locationService->findBank($filter);
         return $this->sendResponse($businesses,"Bank loaded succesfully");
     }
-    public function findAgent(Request $request)
+    public function findAgent(BusinessFilter $filter)
     {
-        $data = $request->validated();
-        $businesses = $this->locationService->findATM($data);
+        $businesses = $this->locationService->findAgent($filter);
         return $this->sendResponse($businesses,"Agent loaded succesfully");
     }
-    public function findBusiness(Request $request)
+    public function findBusiness(BusinessFilter $filter)
     {
-        $data = $request->validated();
-        $businesses = $this->locationService->findATM($data);
+        $businesses = $this->locationService->findBusiness($filter);
         return $this->sendResponse($businesses,"Business loaded succesfully");
     }
 }

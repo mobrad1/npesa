@@ -24,7 +24,8 @@ class AdminRegisterRequest extends FormRequest
             "email" => ['string','email'],
             "gender" => ["string"],
             "phone" => ['required',Rule::unique(Admin::class)],
-            "pin" => $this->passwordRules()
+            "pin" => $this->passwordRules(),
+            "role" => ['string','nullable']
         ];
     }
 

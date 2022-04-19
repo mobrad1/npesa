@@ -1,12 +1,12 @@
 <?php
 
 
-namespace Modules\Business\Services;
+namespace App\Services;
 
 
-use App\Filters\BusinessFilter;
 use App\Services\BaseService;
 use Modules\Business\Entities\Business;
+
 
 class LocationService extends BaseService
 {
@@ -15,19 +15,19 @@ class LocationService extends BaseService
         parent::__construct(Business::class);
     }
 
-    public function findATM(array $attributes)
+    public function findATM($filter)
     {
         return Business::all();
     }
-    public function findBusiness(array $attributes)
+    public function findBusiness($filter)
     {
         return Business::all();
     }
-    public function findBank(array $attributes)
+    public function findBank($filter)
     {
         return Business::all();
     }
-    public function findAgent(array $attributes)
+    public function findAgent($filter)
     {
         return Business::all();
     }

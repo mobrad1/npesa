@@ -22,7 +22,10 @@ class CustomerController extends Controller
     {
         $this->customerService = $customerService;
     }
-
+    public function upgradeAccount()
+    {
+        return $this->sendResponse([],"Upgrade Request Made, Your account will be updated after verification");
+    }
     public function update(CustomerUpdateRequest $request)
     {
         //

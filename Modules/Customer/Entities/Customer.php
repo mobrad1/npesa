@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
 use Laravel\Sanctum\HasApiTokens;
 use Modules\Business\Entities\Business;
@@ -17,7 +18,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 
 class Customer extends Authenticatable implements MustVerifyEmail
 {
-    use HasFactory,HasApiTokens,RecordTransaction,LogsActivity;
+    use HasFactory,HasApiTokens,RecordTransaction,LogsActivity,Notifiable;
 
     protected $fillable = ['first_name','last_name','middle_name','pin',
                             'phone','marital_status','date_of_birth',
@@ -167,6 +168,10 @@ class Customer extends Authenticatable implements MustVerifyEmail
         return $this->update([
             'banned' => !$this->banned
         ]);
+    }
+    public function routeNotificationForAfricasTalking($notification)
+    {
+        return $this->phone;
     }
 
 }

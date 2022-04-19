@@ -2,59 +2,26 @@
 
 namespace Modules\Admin\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Routing\Controller;
+use Modules\Admin\Http\Requests\AdminUpdateRequest;
+use Modules\Admin\Services\AdminService;
+
 
 class AdminController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     * @return Response
-     */
-    public function index()
+    public $adminService;
+
+    public function __construct(AdminService $adminService)
     {
-        //
+        $this->adminService = $adminService;
+    }
+    public function update(AdminUpdateRequest $request,$id)
+    {
+        $data = $request->validated();
+        $admin = $this->adminService->storeOrUpdate($data,$id);
+        return $this->sendResponse($admin,"Admin updated successfully");
     }
 
-    /**
-     * Store a newly created resource in storage.
-     * @param Request $request
-     * @return Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Show the specified resource.
-     * @param int $id
-     * @return Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     * @param Request $request
-     * @param int $id
-     * @return Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     * @param int $id
-     * @return Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

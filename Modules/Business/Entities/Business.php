@@ -5,6 +5,8 @@ namespace Modules\Business\Entities;
 use App\Enums\BusinessNumber;
 use App\Models\BankAccount;
 use App\Models\Transaction;
+use App\Notifications\CreditBusinessWithSms;
+use App\Traits\Filterable;
 use App\Traits\RecordTransaction;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
@@ -20,7 +22,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 
 class Business extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, Notifiable, RecordTransaction,LogsActivity;
+    use HasApiTokens, HasFactory, Notifiable, RecordTransaction,LogsActivity,Filterable;
 
     //protected $fillable = [];
     protected $guarded = [];
@@ -80,26 +82,10 @@ class Business extends Authenticatable implements MustVerifyEmail
         return $this->is_completed_owner_profile;
     }
 
-    /**
-     * Business Reg Details
-     *
-     * @return Collection
-     */
-    public function companyReg()
-    {
-        return $this->hasOne(CompanyRegDetail::class);
-    }
 
 
-    /**
-     * Gets the businesses banking information
-     *
-     * @return void
-     */
-    public function account()
-    {
-        return $this->morphOne(BankAccount::class, 'payable');
-    }
+
+
 
     public function sendMoneyToCustomer($amount, $phone, $channel)
     {
@@ -110,6 +96,7 @@ class Business extends Authenticatable implements MustVerifyEmail
             $recipient->save();
             $this->save();
             $this->recordInternal($amount, $recipient->phone, $channel, 1, $this->phone, $recipient, $this);
+            $recipient->notify(new CreditBusinessWithSms());
             return true;
         }
         return false;

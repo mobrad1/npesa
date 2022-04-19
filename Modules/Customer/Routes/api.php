@@ -21,7 +21,11 @@ Route::group(['prefix' => 'customer'],function(){
          Route::post('update/pin',[\Modules\Customer\Http\Controllers\CustomerController::class,'updatePin']);
         Route::post('update',[\Modules\Customer\Http\Controllers\CustomerController::class,'update']);
         Route::get('balance',[\Modules\Customer\Http\Controllers\CustomerController::class,'balance']);
+        Route::post('invite',[\Modules\Customer\Http\Controllers\InviteController::class,'invite']);
+        Route::post('upgrade',[\Modules\Customer\Http\Controllers\CustomerController::class,'upgradeAccount']);
     });
+
+        Route::post('invite/accept',[\Modules\Customer\Http\Controllers\InviteController::class,'accept']);
     // Routes for sending money with customer
     Route::group(['prefix' => 'money','middleware'=>'auth:customer'],function(){
         Route::post('mobile/send',[\Modules\Customer\Http\Controllers\CustomerController::class,'sendMoneyToMobile']);
@@ -39,9 +43,9 @@ Route::group(['prefix' => 'customer'],function(){
     });
     Route::group(['prefix' => 'location'],function(){
         Route::get('find-atm',[\Modules\Customer\Http\Controllers\LocationController::class,'findATM']);
-        Route::get('find-bank',[\Modules\Customer\Http\Controllers\LocationController::class,'findATM']);
-        Route::get('find-agent',[\Modules\Customer\Http\Controllers\LocationController::class,'findATM']);
-        Route::get('find-business',[\Modules\Customer\Http\Controllers\LocationController::class,'findATM']);
+        Route::get('find-bank',[\Modules\Customer\Http\Controllers\LocationController::class,'findBank']);
+        Route::get('find-agent',[\Modules\Customer\Http\Controllers\LocationController::class,'findAgent']);
+        Route::get('find-business',[\Modules\Customer\Http\Controllers\LocationController::class,'findBusiness']);
     });
     // Routes for  Transactions with customer
     Route::group(['prefix' => 'transactions','middleware' => 'auth:customer'],function(){

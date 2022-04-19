@@ -8,10 +8,11 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Permission\Traits\HasRoles;
 
 class Admin extends Model
 {
-    use  HasApiTokens, HasFactory, Notifiable,LogsActivity;
+    use  HasApiTokens, HasFactory, Notifiable,LogsActivity,HasRoles;
 
     protected $guarded = [];
     protected $hidden = [
