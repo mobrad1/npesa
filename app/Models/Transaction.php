@@ -20,4 +20,12 @@ class Transaction extends Model
              ->useLogName($this->logName)
              ->logAll();
     }
+    public function sender()
+    {
+        return ($this->transactional_from_type)::find($this->transactional_from_id);
+    }
+    public function receiver()
+    {
+        return ($this->transactional_to_type)::find($this->transactional_to_id);
+    }
 }

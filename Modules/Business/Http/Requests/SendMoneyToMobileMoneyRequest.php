@@ -31,4 +31,5 @@ class SendMoneyToMobileMoneyRequest extends FormRequest
     {
         return true;
     }
+
 }

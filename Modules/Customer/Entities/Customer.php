@@ -80,8 +80,7 @@ class Customer extends Authenticatable implements MustVerifyEmail
             $this->balance -= $amount;
             $recipient->save();
             $this->save();
-            $this->recordInternal($amount,$recipient->phone,$channel,1,$this->phone,$recipient,$this);
-            return true;
+            return $this->recordInternal($amount,$recipient->phone,$channel,1,$this->phone,$recipient,$this);
         }
         return false;
     }
@@ -90,10 +89,10 @@ class Customer extends Authenticatable implements MustVerifyEmail
         if($this->balance > $amount){
             $this->balance -= $amount;
             $this->save();
-            $this->recordExternal(
+            return $this->recordExternal(
                 $amount,$channel,1,$this->phone,$account_number,null,$this,
                 $transaction_from_group,$transaction_to_group);
-            return true;
+
         }
         return false;
     }
@@ -102,10 +101,9 @@ class Customer extends Authenticatable implements MustVerifyEmail
         if($this->balance > $amount){
             $this->balance -= $amount;
             $this->save();
-            $this->recordExternal(
+            return $this->recordExternal(
                 $amount,$channel,1,$this->phone,$account_number,null,$this,
                 $transaction_from_group,$transaction_to_group);
-            return true;
         }
         return false;
     }
@@ -114,8 +112,8 @@ class Customer extends Authenticatable implements MustVerifyEmail
         if($this->balance > $amount){
             $this->balance -= $amount;
             $this->save();
-            $this->recordExternal($amount,$channel,1,$this->phone,$account_number,null,$this,$transaction_from_group = "AGOGA",$transaction_to_group);
-            return true;
+            return $this->recordExternal($amount,$channel,1,$this->phone,$account_number,null,$this,$transaction_from_group = "AGOGA",$transaction_to_group);
+
         }
         return false;
     }
@@ -128,8 +126,8 @@ class Customer extends Authenticatable implements MustVerifyEmail
             $this->balance -= $amount;
             $recipient->save();
             $this->save();
-            $this->recordInternal($amount,$recipient->business_number,$channel,1,$this->phone,$recipient,$this,$account_number);
-            return true;
+            return $this->recordInternal($amount,$recipient->business_number,$channel,1,$this->phone,$recipient,$this,$account_number);
+
         }
         return false;
     }
@@ -154,8 +152,8 @@ class Customer extends Authenticatable implements MustVerifyEmail
             $this->balance -= $amount;
             $recipient->save();
             $this->save();
-            $this->recordInternal($amount,$recipient->business_number,$channel,1,$this->phone,$recipient,$this,$account_number);
-            return true;
+            return $this->recordInternal($amount,$recipient->business_number,$channel,1,$this->phone,$recipient,$this,$account_number);
+
         }
         return false;
     }

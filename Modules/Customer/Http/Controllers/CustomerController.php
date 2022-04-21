@@ -3,6 +3,7 @@
 namespace Modules\Customer\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Traits\ConvertTransactionSuccessMessage;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Modules\Customer\Http\Requests\BalanceRequest;
@@ -17,6 +18,7 @@ use Modules\Customer\Services\CustomerService;
 
 class CustomerController extends Controller
 {
+    use ConvertTransactionSuccessMessage;
     public $customerService;
     public function __construct(CustomerService $customerService)
     {
@@ -30,6 +32,9 @@ class CustomerController extends Controller
     {
         //
         $data = $request->validated();
+
+
+
         $customer  = $this->customerService->update($data);
         return $this->sendResponse($customer,"User Updated Successfully");
 
@@ -39,8 +44,8 @@ class CustomerController extends Controller
     {
         $data = $request->validated();
         try{
-            $this->customerService->sendMoneyToMobile($data);
-            return $this->sendResponse([],"Money sent successfully");
+            $transaction = $this->customerService->sendMoneyToMobile($data);
+            return $this->sendResponse([],$this->moneySentMessage($transaction));
         }catch (\Exception $e){
             return $this->sendError($e->getMessage(),[]);
         }
@@ -49,8 +54,8 @@ class CustomerController extends Controller
     {
         $data = $request->validated();
         try{
-            $this->customerService->sendMoneyToBank($data);
-            return $this->sendResponse([],"Money sent successfully");
+           $transaction = $this->customerService->sendMoneyToBank($data);
+            return $this->sendResponse([],$this->moneySentMessage($transaction));
         }catch (\Exception $e){
             return $this->sendError($e->getMessage(),[]);
         }
@@ -59,8 +64,8 @@ class CustomerController extends Controller
     {
         $data = $request->validated();
         try{
-            $this->customerService->sendMoneyToMobileMoney($data);
-            return $this->sendResponse([],"Money sent successfully");
+            $transaction = $this->customerService->sendMoneyToMobileMoney($data);
+            return $this->sendResponse([],$this->moneySentMessage($transaction));
         }catch (\Exception $e){
             return $this->sendError($e->getMessage(),[]);
         }
@@ -69,8 +74,8 @@ class CustomerController extends Controller
     {
         $data = $request->validated();
         try{
-            $this->customerService->buyAirtime($data);
-            return $this->sendResponse([],"Airtime Recharge successful");
+            $transaction = $this->customerService->buyAirtime($data);
+            return $this->sendResponse([],$this->airtimeSentMessage($transaction));
         }catch (\Exception $e){
             return $this->sendError($e->getMessage(),[]);
         }
@@ -79,8 +84,8 @@ class CustomerController extends Controller
     {
         $data = $request->validated();
         try{
-            $this->customerService->payBill($data);
-            return $this->sendResponse([],"Bill payment successful");
+            $transaction = $this->customerService->payBill($data);
+            return $this->sendResponse([],$this->payBillMessage($transaction));
         }catch (\Exception $e){
             return $this->sendError($e->getMessage(),[]);
         }

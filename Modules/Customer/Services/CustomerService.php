@@ -38,8 +38,8 @@ class CustomerService extends BaseService
            if($customer->phone === $attributes['phone']){
                throw new Exception("You can't send money to yourself");
            }
-           if($customer->sendMoney($attributes['amount'],$attributes['phone'],$attributes['channel'])){
-               return;
+           if($transaction = $customer->sendMoney($attributes['amount'],$attributes['phone'],$attributes['channel'])){
+               return $transaction;
            }
            throw new Exception("Insufficient Balance");
         }
@@ -54,8 +54,8 @@ class CustomerService extends BaseService
         $hasher = app('hash');
         if($hasher->check($attributes['pin'],$customer->pin))
         {
-            if($customer->sendMoneyToBank($attributes['amount'],$attributes['channel'],$attributes['account_number'],"AGOGA",$attributes['bank'])){
-               return;
+            if($transaction = $customer->sendMoneyToBank($attributes['amount'],$attributes['channel'],$attributes['account_number'],"AGOGA",$attributes['bank'])){
+               return $transaction;
             }
             throw new Exception("Insufficient Balance");
         }
@@ -68,8 +68,8 @@ class CustomerService extends BaseService
         $hasher = app('hash');
         if($hasher->check($attributes['pin'],$customer->pin))
         {
-            if($customer->sendMoneyToMobileMoney($attributes['amount'],$attributes['channel'],$attributes['account_number'],"AGOGA",$attributes['mobile_money'])){
-               return;
+            if($transaction = $customer->sendMoneyToMobileMoney($attributes['amount'],$attributes['channel'],$attributes['account_number'],"AGOGA",$attributes['mobile_money'])){
+               return $transaction;
             }
             throw new Exception("Insufficient Balance");
         }
@@ -81,8 +81,8 @@ class CustomerService extends BaseService
         $hasher = app('hash');
         if($hasher->check($attributes['pin'],$customer->pin))
         {
-            if($customer->buyAirtime($attributes['amount'],$attributes['channel'],$attributes['mobile_number'],"AGOGA",$attributes['airtime_provider'])){
-               return;
+            if($transaction = $customer->buyAirtime($attributes['amount'],$attributes['channel'],$attributes['mobile_number'],"AGOGA",$attributes['airtime_provider'])){
+               return $transaction;
             }
             throw new Exception("Insufficient Balance");
         }
@@ -95,8 +95,8 @@ class CustomerService extends BaseService
         //Extract Pin checking to a custom validator or Helper
         $hasher = app('hash');
         if ($hasher->check($attributes['pin'], $customer->pin)) {
-           if($customer->payBill($attributes['amount'],$attributes['business_number'],$attributes['channel'],$accountNumber)){
-               return;
+           if($transaction = $customer->payBill($attributes['amount'],$attributes['business_number'],$attributes['channel'],$accountNumber)){
+               return $transaction;
            }
            throw new Exception("Insufficient Balance");
         }
@@ -109,8 +109,8 @@ class CustomerService extends BaseService
         //Extract Pin checking to a custom validator or Helper
         $hasher = app('hash');
         if ($hasher->check($attributes['pin'], $customer->pin)) {
-           if($customer->withdrawViaAgent($attributes['amount'],$attributes['business_number'],$attributes['channel'],$accountNumber)){
-               return;
+           if($transaction = $customer->withdrawViaAgent($attributes['amount'],$attributes['business_number'],$attributes['channel'],$accountNumber)){
+               return $transaction;
            }
            throw new Exception("Insufficient Balance");
         }

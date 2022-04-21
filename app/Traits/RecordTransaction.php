@@ -5,12 +5,14 @@ namespace App\Traits;
 
 
 use App\Models\Transaction;
+use Illuminate\Support\Str;
 
 trait RecordTransaction
 {
     public function recordInternal($amount,$to_number,$channel,$category,$from_number,$toModel = null,$fromModel = null,$account_number = null,$transaction_from_group = "AGOGA",$transaction_to_group = "AGOGA",$transactionType = "internal")
     {
-        Transaction::create([
+
+        return Transaction::create([
             "channel" => $channel,
             "transaction_type" => $transactionType,
             "transactional_from_type" => $fromModel != null ? get_class($this) : null,
@@ -22,8 +24,8 @@ trait RecordTransaction
             "transaction_to_user_number" => $to_number,
             "transaction_from_user_number" => $from_number,
             "transaction_category_id" => $category,
-            "transaction_reference_internal" => "generate_for_internal",
-            "transaction_reference_external" => "get_reference",
+            "transaction_reference_internal" => Str::random(10),
+            "transaction_reference_external" => Str::random(10),
             "transaction_account_number" => $account_number,
             "transaction_amount" => $amount,
             "transaction_amount_credit" => $amount,
@@ -34,10 +36,11 @@ trait RecordTransaction
             "settlements_type" => "Auto",
             "status" => "Complete",
         ]);
+
     }
     public function recordExternal($amount,$channel,$category,$from_number,$account_number = null,$toModel = null,$fromModel = null,$transaction_from_group = "AGOGA",$transaction_to_group = "AGOGA",$transactionType = "external")
     {
-        Transaction::create([
+        return Transaction::create([
             "channel" => $channel,
             "transaction_type" => $transactionType,
             "transactional_from_type" => $fromModel != null ? get_class($this) : null,
@@ -49,8 +52,8 @@ trait RecordTransaction
             "transaction_to_user_number" => null,
             "transaction_from_user_number" => $from_number,
             "transaction_category_id" => $category,
-            "transaction_reference_internal" => "generate_for_internal",
-            "transaction_reference_external" => "get_reference",
+            "transaction_reference_internal" => Str::random(10),
+            "transaction_reference_external" => Str::random(10),
             "transaction_account_number" => $account_number,
             "transaction_amount" => $amount,
             "transaction_amount_credit" => $amount,
