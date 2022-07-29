@@ -131,18 +131,21 @@ class BusinessService extends BaseService
     }
     public function withdrawViaAgent(array $attributes)
     {
+
         $business = auth('business')->user();
         $accountNumber = isset($attributes['account_number']) ? $attributes['account_number'] : null;
         //Extract Pin checking to a custom validator or Helper
         $hasher = app('hash');
         if ($hasher->check($attributes['pin'], $business->pin)) {
-            if($business->business_number === $attributes['business_number']){
+           if($business->business_number === $attributes['business_number']){
                throw new Exception("You can't withdraw from yourself");
            }
-           if($business->withdrawViaAgent($attributes['amount'],$attributes['business_number'],$attributes['channel'],$accountNumber)){
-               return;
+           if($transaction = $business->withdrawViaAgent($attributes['amount'],$attributes['business_number'],$attributes['channel'],$accountNumber)){
+               return $transaction;
+           }else{
+               throw new Exception("Insufficient Balance");
            }
-           throw new Exception("Insufficient Balance");
+
         }
         throw new Exception("Invalid Pin ");
     }

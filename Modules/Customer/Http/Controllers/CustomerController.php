@@ -124,5 +124,8 @@ class CustomerController extends Controller
         }
 
     }
+    public function cardDeposit(){
+        return $this->sendResponse([],'Deposit Successful');
+    }
 
 }

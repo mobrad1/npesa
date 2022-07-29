@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Modules\Business\Http\Controllers\AccountVerificationController;
 use Modules\Business\Http\Controllers\ProfileController;
 use Modules\Business\Http\Controllers\Auth\LoginController;
 use Modules\Business\Http\Controllers\BankAccountController;
@@ -30,8 +31,9 @@ Route::prefix('business')->group(function () {
     Route::put('/verify/email/{hash}/{id}', [EmailVerificationController::class, 'verify'])
         ->name('business.verification.verify')
         ->middleware('signed');
-
+    Route::post('/verify',[AccountVerificationController::class,'verify']);
     Route::post('forgot-password', [\Modules\Business\Http\Controllers\ForgotPasswordController::class, 'sendOTP'])->name('forget.pin.send');
+    Route::post('resend-otp', [\Modules\Business\Http\Controllers\ForgotPasswordController::class, 'sendOTP'])->name('otp.resend');
     Route::post('reset-pin', [\Modules\Business\Http\Controllers\ForgotPasswordController::class, 'updatePassword'])->name('reset.password.get');
     // only authenticated businesses route
     Route::middleware('auth:business')->group(function () {
@@ -53,6 +55,7 @@ Route::prefix('business')->group(function () {
         });
         Route::group(['prefix' => 'withdraw'], function () {
             Route::post('agent', [\Modules\Business\Http\Controllers\BusinessController::class, 'withdrawViaAgent']);
+            Route::post('atm', [\Modules\Business\Http\Controllers\BusinessController::class, 'withdrawViaAgent']);
         });
         Route::group(['prefix' => 'location'],function(){
         Route::get('find-atm',[\Modules\Business\Http\Controllers\LocationController::class,'findATM']);

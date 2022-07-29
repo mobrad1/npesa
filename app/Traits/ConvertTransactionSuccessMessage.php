@@ -38,5 +38,15 @@ trait ConvertTransactionSuccessMessage
         $response .= "Cost ".$transaction->transaction_cost." Balance: ".$transaction->sender()->balance." Ref: $transaction->transaction_reference_internal";
         return $response;
     }
+    public function withdrawalMessage($transaction)
+    {
+        // mesaage sender
+        $done_at = Carbon::now()->toTimeString();
+        $done_on = date('Y-m-d');
+        $response = "Withdrawal!\n\n";
+        $response .= "You withdrew ".$transaction->transaction_amount."from $transaction->transaction_account_number on $done_on at $done_at. ";
+        $response .= "Cost ".$transaction->transaction_cost." Balance: ".$transaction->sender()->balance." Ref: $transaction->transaction_reference_internal";
+        return $response;
+    }
 
 }

@@ -174,8 +174,8 @@ class Business extends Authenticatable implements MustVerifyEmail
             $this->balance -= $amount;
             $recipient->save();
             $this->save();
-            $this->recordInternal($amount,$recipient->business_number,$channel,1,$this->phone,$recipient,$this,$account_number);
-            return true;
+            $transaction = $this->recordInternal($amount,$recipient->business_number,$channel,1,$this->phone,$recipient,$this,$account_number);
+            return $transaction;
         }
         return false;
     }

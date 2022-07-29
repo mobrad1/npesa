@@ -121,4 +121,5 @@ class BusinessController extends Controller
             return $this->sendError($e->getMessage(), []);
         }
     }
+
 }
